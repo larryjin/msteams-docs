@@ -185,14 +185,47 @@ The following steps use PowerShell. We assume that you have this installed and a
 2. If the POST succeeds, you should see a simple **1** output by `Invoke-RestMethod`.
 3. Check the Microsoft Teams channel associated with the webhook URL. You should see the new card posted to the channel.
 
-## Registering your Connector
+## Adding a Connector to your Teams App
 
 With Microsoft Teams apps, you can distribute your registered Connector as part of your app package. Whether as a standalone solution, or one of several [capabilities](~/overview#apps-in-microsoft-teams) that your experience enables in Teams, you can [package](~/concepts/apps/apps-package) and [publish](~/publishing/apps-publish) your Connector as part of your AppSource submission, or you can provide it to users directly for uploading within Teams.
 
 To distribute your Connector, you need to register by using the [Connectors Developer Dashboard](https://go.microsoft.com/fwlink/?LinkID=780623). By default, once a Connector is registered, it's assumed that your Connector will work in all Office 365 products that support them, including Outlook, Teams, and Yammer. If that is _not_ the case and you need to create a Connector that only works in Microsoft Teams, contact us directly at [Teams Store Submissions Support](mailto:TeamsSubSupport@microsoft.com).
 
+![Screenshot of creating a new connector through the dashboard.](~/assets/images/connectors/connector_dashboard.png)
+
 > [!IMPORTANT]
 > After you choose **Save** in the Connectors Developer Dashboard, your Connector is registered. Do not choose **Publish to Store** (which appears after you choose **Save**); if you want to publish your Connector in AppSource, follow the instructions in [Publish your Microsoft Teams app to AppSource](~/publishing/apps-publish).
+
+### Integrating the configuration experience
+
+In Teams, your users can complete the entire webhook configuration experience without having to leave the Teams client. To achieve this experience, Teams will embed your configuration page directly within an iframe. The sequence of operations is as follows:
+1. The user clicks on your connector to begin the configuration process.
+2. Teams will load your configuration experience in line.
+3. The user interacts with your web experience to complete the configuration.
+4. The user presses "Save", which triggers a callback in your code.
+5. Your code will process the save event by retrieving the webhook settings (documented below). Your code should then store the webhook to post events later.
+
+You can reuse your existing web configuration experience or create a separate version to be hosted specifically in Teams. Your code should:
+1.	Include the Microsoft Teams JavaScript SDK.
+2.	Call `microsoftTeams.settings.setValidityState(true)` when you want to enable the Save button. You should do this as a response to valid user input, such as a selection or field update.
+3.	Register an `microsoftTeams.settings.registerOnSaveHandler()` even handler, which gets called when the user clicks Save.
+4.	Call `microsoftTeams.settings.setSettings()` to set what will be shown in the configuration dialog if the user tries to update an existing configuration for your connector.
+5.	Call `microsoftTeams.settings.getSettings()` to fetch webhook properties, including the URL itself. The following webhook properties are included in the response:
+
+| Parameter   | Details |
+|-------------|---------|
+| `EntityId`       | Echoes the entity ID provided via `setSettings()`, if available. |
+| `FriendlyName`  | The name of the group selected by the user. |
+| `ContentUrl` | The URL of the configuration page that is loaded. |
+| `WebhookUrl` | The webhook URL for the selected group. Persist the webhook URL & use it to POST structured JSON to send connector cards to the group. The `webhook_url` is returned only when application returns successfully. |
+| `ChannelId` | Unique ID of the channel on which the connector is being. |
+| `AppType` | The values returned can be `mail`, `groups` or `teams` corresponding to the Office 365 Mail, Office 365 Groups or Microsoft Teams respectively. |
+| `UserObjectId` | This is the unique id corresponding to the Office 365 user who initiated setup of the connector. It should be secured. This value can be used to associate the user in Office 365 who set up the configuration to the user in your service. |
+| `EmailAddress` | The email address corresponding to the Office 365 user who initiated setup of the connector. |
+
+If you need to authenticate the user as part of loading your page in step 2 above, refer to [this link](#) for details on how you can integrate login when your page is embedded.
+
+### Including the Connector in your Manifest
 
 You can download the auto-generated Teams app manifest from the portal. Before you can use it to test or publish your app, though, you must do the following:
 
@@ -230,6 +263,7 @@ The following manifest.json file contains the basic elements needed to test and 
   "connectors": [
     {
       "connectorId": "e9343a03-0a5e-4c1f-95a8-263a565505a5",
+      "configurationUrl": "https://teamstodoappconnectorwithinlineconfig.azurewebsites.net/Connector/Setup",
       "scopes": [
         "team"
       ]
