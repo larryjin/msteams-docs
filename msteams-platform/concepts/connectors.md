@@ -187,7 +187,7 @@ The following steps use PowerShell. We assume that you have this installed and a
 
 ## Adding a Connector to your Teams App
 
-With Microsoft Teams apps, you can distribute your registered Connector as part of your app package. Whether as a standalone solution, or one of several [capabilities](~/overview#apps-in-microsoft-teams) that your experience enables in Teams, you can [package](~/concepts/apps/apps-package) and [publish](~/publishing/apps-publish) your Connector as part of your AppSource submission, or you can provide it to users directly for uploading within Teams.
+You can distribute your registered Connector as part of your Teams app package. Whether as a standalone solution, or one of several [capabilities](~/overview#apps-in-microsoft-teams) that your experience enables in Teams, you can [package](~/concepts/apps/apps-package) and [publish](~/publishing/apps-publish) your Connector as part of your AppSource submission, or you can provide it to users directly for uploading within Teams.
 
 To distribute your Connector, you need to register by using the [Connectors Developer Dashboard](https://go.microsoft.com/fwlink/?LinkID=780623). By default, once a Connector is registered, it's assumed that your Connector will work in all Office 365 products that support them, including Outlook, Teams, and Yammer. If that is _not_ the case and you need to create a Connector that only works in Microsoft Teams, contact us directly at [Teams Store Submissions Support](mailto:TeamsSubSupport@microsoft.com).
 
@@ -198,7 +198,7 @@ To distribute your Connector, you need to register by using the [Connectors Deve
 
 ### Integrating the configuration experience
 
-In Teams, your users can complete the entire webhook configuration experience without having to leave the Teams client. To achieve this experience, Teams will embed your configuration page directly within an iframe. The sequence of operations is as follows:
+Your users will complete the entire webhook configuration experience without having to leave the Teams client. To achieve this experience, Teams will embed your configuration page directly within an iframe. The sequence of operations is as follows:
 1. The user clicks on your connector to begin the configuration process.
 2. Teams will load your configuration experience in line.
 3. The user interacts with your web experience to complete the configuration.
@@ -286,7 +286,7 @@ After you upload the app, open the Connectors list from any channel. Scroll to t
 
 ![Screenshot of uploaded section in Connector dialog box](~/assets/images/connectors/connector_dialog_uploaded.png)
 
-You can now launch the configuration experience. Be aware that this flow occurs entirely within Microsoft Teams through a pop-up window. Currently, this behavior differs from the configuration experience in Connectors that we created; we are working on unifying the experiences.
+You can now launch the configuration experience. Be aware that this flow occurs entirely within Microsoft Teams as a hosted experience.
 
 To verify that an `HttpPOST` action is working correctly, use your [custom incoming webhook](#setting-up-a-custom-incoming-webhook).
 
