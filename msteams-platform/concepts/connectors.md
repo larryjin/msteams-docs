@@ -227,7 +227,7 @@ You can reuse your existing web configuration experience or create a separate ve
 If you need to authenticate the user as part of loading your page in step 2 above, refer to [this link](~/concepts/authentication/auth-flow-tab.md) for details on how you can integrate login when your page is embedded.
 
 > [!NOTE]
-> Due to cross-client compatibility reaosns, your code will need to call `microsoftTeams.authentication.registerAuthenticationHandlers()` with the URL and success/failure callback methods before calling `authenticate()`.
+> Due to cross-client compatibility reasons, your code will need to call `microsoftTeams.authentication.registerAuthenticationHandlers()` with the URL and success/failure callback methods before calling `authenticate()`.
 
 #### Handling edits
 Your code should handle users returning to edit an existing connector configuration. To do this, call `microsoftTeams.settings.setSettings()` during the initial configuration with the following parameters:
