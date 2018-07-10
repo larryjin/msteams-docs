@@ -200,18 +200,18 @@ To distribute your Connector, you need to register by using the [Connectors Deve
 
 Your users will complete the entire webhook configuration experience without having to leave the Teams client. To achieve this experience, Teams will embed your configuration page directly within an iframe. The sequence of operations is as follows:
 1. The user clicks on your connector to begin the configuration process.
-2. Teams will load your configuration experience in line.
-3. The user interacts with your web experience to complete the configuration.
-4. The user presses "Save", which triggers a callback in your code.
-5. Your code will process the save event by retrieving the webhook settings (documented below). Your code should then store the webhook to post events later.
+1. Teams will load your configuration experience in line.
+1. The user interacts with your web experience to complete the configuration.
+1. The user presses "Save", which triggers a callback in your code.
+1. Your code will process the save event by retrieving the webhook settings (documented below). Your code should then store the webhook to post events later.
 
 You can reuse your existing web configuration experience or create a separate version to be hosted specifically in Teams. Your code should:
-1.	Include the Microsoft Teams JavaScript SDK. This gives your code access to APIs to perform common operations like getting the current user/channel/team context and initiating authentication flows.
-2.	Call `microsoftTeams.settings.setValidityState(true)` when you want to enable the Save button. You should do this as a response to valid user input, such as a selection or field update.
-3.	Register a `microsoftTeams.settings.registerOnSaveHandler()` event handler, which gets called when the user clicks Save.
-4.	Call `microsoftTeams.settings.setSettings()` to set what will be shown in the configuration dialog if the user tries to update an existing configuration for your connector.
-5.	Call `microsoftTeams.settings.getSettings()` to fetch webhook properties, including the URL itself. You should call this  In addition to during the save event, you should also call this when your page is first loaded in the case of a re-configuration. 
-6.  (Optional) Register a `microsoftTeams.settings.registerOnRemoveHandler()` event handler, which gets called when the user removes your connector. This event gives your service an opportunity to perform any cleanup actions.
+1. Include the Microsoft Teams JavaScript SDK. This gives your code access to APIs to perform common operations like getting the current user/channel/team context and initiating authentication flows. Initialize the SDK by calling `microsoftTeams.initialize()`.
+1. Call `microsoftTeams.settings.setValidityState(true)` when you want to enable the Save button. You should do this as a response to valid user input, such as a selection or field update.
+1. Register a `microsoftTeams.settings.registerOnSaveHandler()` event handler, which gets called when the user clicks Save.
+1. Call `microsoftTeams.settings.setSettings()` to set what will be shown in the configuration dialog if the user tries to update an existing configuration for your connector.
+1. Call `microsoftTeams.settings.getSettings()` to fetch webhook properties, including the URL itself. You should call this  In addition to during the save event, you should also call this when your page is first loaded in the case of a re-configuration. 
+1. (Optional) Register a `microsoftTeams.settings.registerOnRemoveHandler()` event handler, which gets called when the user removes your connector. This event gives your service an opportunity to perform any cleanup actions.
 
 #### `GetSettings()` response properties
 
