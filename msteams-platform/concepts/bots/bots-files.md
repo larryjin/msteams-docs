@@ -14,6 +14,23 @@ One way of sending files is using the Microsoft Graph APIs for [OneDrive and Sha
 
 ## Receiving files in personal chat
 
+Your app must declare in the manifest that it can receive files. To do so, simply add the `supportsFiles` property and set to `true` in your app's bot declaration:
+
+```json
+"bots": [
+  {
+    "botId": "1439467d-6102-4430-adbd-5674fa1d98c5",
+    "supportsFiles": true,
+    "scopes": [
+      "groupchat",
+      "team",
+      "personal"
+    ],
+  ...
+```
+
+When set, this property enables the file picker and the Files tab in your personal app experience.
+
 When a user sends a file to your bot, the file is first uploaded to the user's OneDrive for Business storage. Your bot will then receive a message activity notifying you of the user upload. The activity will contain file metadata, such as its name and the content URL. You can directly read from this URL to fetch its binary content.
 
 ### Message activity with file attachment example
