@@ -213,12 +213,12 @@ private static Attachment CreateFileInfoAttachment(FileDownloadInfo downloadInfo
     FileInfoCard card = new FileInfoCard()
     {
         FileType = downloadInfo.FileType,
-        UniqueId = downloadInfo.UniqueId
+        UniqueId = downloadInfo.UniqueId,
+        ContentUrl = contentUrl,
+        Name = name
     };
 
     Attachment att = card.ToAttachment();
-    att.ContentUrl = contentUrl;
-    att.Name = name;
 
     return att;
 }
@@ -236,11 +236,11 @@ private static Attachment CreateFileConsentAttachment()
         AcceptContext = acceptContext,
         DeclineContext = declineContext,
         SizeInBytes = 102635,
-        Description = "File description"
+        Description = "File description",
+        Name = "Example file"
     };
 
     Attachment att = card.ToAttachment();
-    att.Name = "Example file";
 
     return att;
 }
